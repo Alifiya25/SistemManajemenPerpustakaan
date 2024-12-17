@@ -1,29 +1,46 @@
 /* Global Styles */
 body {
+    font-family: 'Poppins', Arial, sans-serif;
     background-color: #d1ecd1;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: #333;
     height: 100vh;
-    margin: 0;
-    flex-direction: column;
+    /* Full height of viewport */
+    overflow: hidden;
+    /* Prevent scrolling */
 }
 
-header, .footer-menu {
-    background-color: #4caf50;
+header {
+    background: #4caf50;
     color: white;
     text-align: center;
-    padding: 15px;
-    font-size: 14px;
+    padding: 5px 0;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 60px;
     width: 100%;
+    z-index: 100;/* Pastikan footer berada di atas konten lain */
 }
+
+.footer-menu {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #4caf50; /* Sesuaikan dengan tema Anda */
+    color: #ffffff; /* Sesuaikan dengan tema Anda */
+    font-size: 14px;
+    position: fixed; /* Tambahkan ini jika ingin footer selalu terlihat */
+    bottom: 0;
+    width: 100%;
+    z-index: 10; /* Pastikan ini berada di atas elemen lain */
+}
+
 
 footer {
     background-color: #4caf50;
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 10px 20px;
     position: relative;
     bottom: 0;
     width: 100%;
@@ -33,21 +50,23 @@ footer {
 .header {
     background: #4caf50;
     color: white;
-    padding: 15px 20px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     height: 60px;
+    margin-bottom: 60px; /* Memberikan ruang untuk konten di bawah header */
 }
 
 .header .title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
+    font-weight: bold;
 }
 
 .header .nav-buttons a {
@@ -77,8 +96,11 @@ footer {
     max-width: 420px;
     width: 100%;
     text-align: center;
-    margin-top: 70px; /* Adjust for fixed header */
+    margin-top: 60px;/* Adjust for fixed header */
+    margin-left: auto;
+    margin-right: auto;/* Center horizontally */
 }
+
 
 .login-header {
     margin-bottom: 25px;
@@ -142,6 +164,7 @@ footer {
     text-align: center;
 }
 
+
 /* Main Menu */
 .welcome-container {
     display: flex;
@@ -151,8 +174,8 @@ footer {
     align-items: center;
     padding: 40px 20px;
     text-align: center;
-    margin-top: 80px; /* Adjust for fixed header */
-    margin-bottom: 30px;
+    margin-top: 60px; /* Reduced for closer proximity to header */
+    margin-bottom: 20px; /* Reduced for closer proximity to menu-container */
 }
 
 .welcome-message {
@@ -167,13 +190,15 @@ footer {
 
 .menu-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* This centers the content horizontally */
     flex-wrap: wrap;
     gap: 30px;
-    padding: 30px 20px;
-    margin-top: 0;
+    padding: 20px; /* Make sure padding is balanced */
+    margin-top: 20px;
     max-width: 1200px;
     width: 100%;
+    margin-left: auto; /* Centers the container */
+    margin-right: auto; /* Centers the container */
 }
 
 .menu-grid {
@@ -181,8 +206,8 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
-    width: 100%;
     max-width: 1200px;
+    margin: 0 auto; /* Ensures centering */
     box-shadow: #4caf50;
 }
 
@@ -194,6 +219,7 @@ footer {
     box-shadow: 0 4px 8px #4caf50;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     width: 200px;
+    max-width: 300px;
 }
 
 .menu-card:hover {
@@ -213,58 +239,128 @@ footer {
     margin: 0;
 }
 
-/* Anggota Table */
-.Anggota-container {
-    margin-top: 50px;
-}
-
-.Anggota-header {
+.error-container {
+    display: none; /* Tersembunyi secara default */
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 5px;
     text-align: center;
-    margin-bottom: 20px;
-    animation: fadeIn 1s ease-in-out;
-    position: relative;
+    max-width: 600px;
 }
 
-.Anggota-header h1 {
-    color: #00695c;
-}
-
-.back-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: -40px;
+/* Anggota */
+.welcome-container-anggota {
+    text-align: center;
+    padding: 15px 10px;
+    margin-top: 60px; /* Tambahkan margin-top untuk menggeser kontainer di bawah header */
+    border-radius: 8px; /* Opsional: buat sudut melengkung */
+    color: #338a3e;
 }
 
 .table-container {
-    margin-top: 20px;
-    animation: slideUp 1s ease-in-out;
-    max-height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-
-.btn-Anggota {
-    margin-right: 5px;
-}
-
-.table-Anggota {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: scroll;
+    max-height: calc(50vh - 100px);
     background: white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px #4caf50;
+    padding: 8px;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+    max-width: 1200px;
+    margin-left: auto;   /* Mengatur margin kiri otomatis */
+    margin-right: auto;  /* Mengatur margin kanan otomatis */
+    margin-top: 10px; /* Memberikan jarak atas agar tidak terlalu dekat dengan Total Anggota */
 }
 
-.table-Anggota th {
+.table-container-buku {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: scroll;
+    max-height: calc(50vh - 50px);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px #4caf50;
+    padding: 8px;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+    max-width: 1200px;
+    margin-left: auto;   /* Mengatur margin kiri otomatis */
+    margin-right: auto;  /* Mengatur margin kanan otomatis */
+    margin-top: 10px; /* Memberikan jarak atas agar tidak terlalu dekat dengan Total Anggota */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
     background: #4caf50;
     color: white;
+    text-align: center;
     position: sticky;
     top: 0;
-    z-index: 1;
 }
 
-.btn-Anggota:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #c8e6c9;
+}
+
+.footer-anggota {
+    background: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    z-index: 100;/* Pastikan footer berada di atas konten lain */
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between; /* Membuat ruang antara elemen aksi */
+    gap: 10px; /* Jarak antar tombol */
+    padding: 10px 15px;
+    position: fixed; /* Tetap di bawah layar */
+    bottom: 60px; /* Beri jarak antara tombol dan footer */
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Agar tombol tetap di atas konten lainnya */
+}
+
+
+.action-left,
+.action-center,
+.action-right {
+    display: inline-block;
+}
+
+.action-center {
+    margin: 0 auto;/* Memusatkan elemen ini */
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #338a3e;
 }
 
 /* Table Styling */
@@ -328,14 +424,31 @@ footer {
     transition: background-color 0.3s ease;
 }
 
-/* Tambah Anggota Styles */
-.tambah-anggota .form-container {
-    background: #ffffff;
-    padding: 30px 20px;
-    border-radius: 12px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
-    max-width: 900px; /* Lebar lebih besar */
-    margin: 40px auto;
+/*Tambah Anggota*/
+.header-tambah_anggota {
+    background: #4caf50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-tambah_anggota .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header-tambah_anggota .nav-buttons a {
+    color: white;
+    margin-left: 15px;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.welcome-container-tambah-anggota {
+    text-align: center;
+    padding: 20px 10px;
 }
 
 .tambah-anggota .form-header {
@@ -361,7 +474,8 @@ footer {
 .tambah-anggota .form-group label {
     color: #4caf50;
     font-weight: bold;
-    flex: 0 0 150px; /* Lebar label tetap */
+    flex: 0 0 150px;
+    /* Lebar label tetap */
     margin-right: 15px;
     text-align: right;
 }
@@ -392,6 +506,8 @@ footer {
 .tambah-anggota .btn-submit:hover {
     background-color: #45a049;
 }
+
+
 /* Edit Anggota Styles */
 .edit-anggota .form-container {
     background: #ffffff;
