@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 29 Nov 2024 pada 11.17
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: 127.0.0.1:3306
+-- Generation Time: Dec 17, 2024 at 03:54 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `anggota`
+-- Table structure for table `anggota`
 --
 
 CREATE TABLE `anggota` (
@@ -37,7 +37,7 @@ CREATE TABLE `anggota` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `anggota`
+-- Dumping data for table `anggota`
 --
 
 INSERT INTO `anggota` (`ID_ANGGOTA`, `NAMA`, `ALAMAT`, `TANGGAL_JOIN`, `TANGGAL_LAHIR`, `KONTAK`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `anggota` (`ID_ANGGOTA`, `NAMA`, `ALAMAT`, `TANGGAL_JOIN`, `TANGGAL_
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `buku`
+-- Table structure for table `buku`
 --
 
 CREATE TABLE `buku` (
@@ -61,7 +61,7 @@ CREATE TABLE `buku` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `buku`
+-- Dumping data for table `buku`
 --
 
 INSERT INTO `buku` (`ID_BUKU`, `JUDUL`, `HARGA`, `TIPE`, `GENRE`, `STOCK`) VALUES
@@ -99,7 +99,7 @@ INSERT INTO `buku` (`ID_BUKU`, `JUDUL`, `HARGA`, `TIPE`, `GENRE`, `STOCK`) VALUE
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `denda`
+-- Table structure for table `denda`
 --
 
 CREATE TABLE `denda` (
@@ -114,7 +114,7 @@ CREATE TABLE `denda` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `peminjaman`
+-- Table structure for table `peminjaman`
 --
 
 CREATE TABLE `peminjaman` (
@@ -128,23 +128,45 @@ CREATE TABLE `peminjaman` (
   `HARGA_SEWA` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `peminjaman`
+--
+
+INSERT INTO `peminjaman` (`ID_PEMINJAMAN`, `ID_ANGGOTA`, `ID_PUSTAKAWAN`, `ID_BUKU`, `JUMLAH_BUKU`, `TANGGAL_PINJAM`, `TANGGAL_KEMBALI`, `HARGA_SEWA`) VALUES
+(401001, 201001, 10101, 1003, 1, '2024-12-10', '2024-12-17', 70000.00),
+(401002, 201003, 50505, 1004, 1, '2024-12-11', '2024-12-16', 70000.00),
+(401003, 201002, 20202, 1011, 1, '2024-12-10', '2024-12-17', 70000.00),
+(401004, 201001, 30303, 1001, 1, '2024-12-03', '2024-12-09', 80000.00),
+(401005, 201003, 40404, 1012, 1, '2024-12-07', '2024-12-12', 80000.00);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengembalian`
+-- Table structure for table `pengembalian`
 --
 
 CREATE TABLE `pengembalian` (
   `ID_PENGEMBALIAN` int(11) UNSIGNED NOT NULL,
   `ID_PEMINJAMAN` int(11) UNSIGNED NOT NULL,
-  `ID_PUSTAKAWAN` int(11) UNSIGNED NOT NULL,
-  `TANGGAL_KEMBALI` date NOT NULL
+  `ID_ANGGOTA` int(11) UNSIGNED NOT NULL,
+  `TANGGAL_KEMBALI` date NOT NULL,
+  `JUMLAH_BUKU` int(3) NOT NULL,
+  `KETERANGAN` varchar(30) NOT NULL,
+  `TANGGAL_PINJAM` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pengembalian`
+--
+
+INSERT INTO `pengembalian` (`ID_PENGEMBALIAN`, `ID_PEMINJAMAN`, `ID_ANGGOTA`, `TANGGAL_KEMBALI`, `JUMLAH_BUKU`, `KETERANGAN`, `TANGGAL_PINJAM`) VALUES
+(301005, 401001, 201001, '2024-12-17', 1, 'Tidak Terlambat', '2024-12-12'),
+(301006, 401001, 201001, '2024-12-17', 2, 'Terlambat', '2024-12-10');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pustakawan`
+-- Table structure for table `pustakawan`
 --
 
 CREATE TABLE `pustakawan` (
@@ -159,7 +181,7 @@ CREATE TABLE `pustakawan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `pustakawan`
+-- Dumping data for table `pustakawan`
 --
 
 INSERT INTO `pustakawan` (`ID_PUSTAKAWAN`, `ID_ROLE`, `NAMA`, `KONTAK`, `ALAMAT`, `TANGGAL_LAHIR`, `TANGGAL_PUSTAKAWAN`, `JABATAN`) VALUES
@@ -172,7 +194,7 @@ INSERT INTO `pustakawan` (`ID_PUSTAKAWAN`, `ID_ROLE`, `NAMA`, `KONTAK`, `ALAMAT`
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -181,7 +203,7 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`ID_ROLE`, `NAMA_ROLE`) VALUES
@@ -195,19 +217,19 @@ INSERT INTO `roles` (`ID_ROLE`, `NAMA_ROLE`) VALUES
 --
 
 --
--- Indeks untuk tabel `anggota`
+-- Indexes for table `anggota`
 --
 ALTER TABLE `anggota`
   ADD PRIMARY KEY (`ID_ANGGOTA`);
 
 --
--- Indeks untuk tabel `buku`
+-- Indexes for table `buku`
 --
 ALTER TABLE `buku`
   ADD PRIMARY KEY (`ID_BUKU`);
 
 --
--- Indeks untuk tabel `denda`
+-- Indexes for table `denda`
 --
 ALTER TABLE `denda`
   ADD PRIMARY KEY (`ID_DENDA`),
@@ -216,7 +238,7 @@ ALTER TABLE `denda`
   ADD KEY `ID_BUKU` (`ID_BUKU`);
 
 --
--- Indeks untuk tabel `peminjaman`
+-- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
   ADD PRIMARY KEY (`ID_PEMINJAMAN`),
@@ -225,78 +247,78 @@ ALTER TABLE `peminjaman`
   ADD KEY `ID_BUKU` (`ID_BUKU`);
 
 --
--- Indeks untuk tabel `pengembalian`
+-- Indexes for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
   ADD PRIMARY KEY (`ID_PENGEMBALIAN`),
   ADD KEY `ID_PEMINJAMAN` (`ID_PEMINJAMAN`),
-  ADD KEY `ID_PUSTAKAWAN` (`ID_PUSTAKAWAN`);
+  ADD KEY `ID_ANGGOTA` (`ID_ANGGOTA`) USING BTREE;
 
 --
--- Indeks untuk tabel `pustakawan`
+-- Indexes for table `pustakawan`
 --
 ALTER TABLE `pustakawan`
   ADD PRIMARY KEY (`ID_PUSTAKAWAN`),
   ADD KEY `ID_ROLE` (`ID_ROLE`);
 
 --
--- Indeks untuk tabel `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`ID_ROLE`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `anggota`
+-- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
   MODIFY `ID_ANGGOTA` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201004;
 
 --
--- AUTO_INCREMENT untuk tabel `buku`
+-- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
   MODIFY `ID_BUKU` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1031;
 
 --
--- AUTO_INCREMENT untuk tabel `denda`
+-- AUTO_INCREMENT for table `denda`
 --
 ALTER TABLE `denda`
   MODIFY `ID_DENDA` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `peminjaman`
+-- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `ID_PEMINJAMAN` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_PEMINJAMAN` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401006;
 
 --
--- AUTO_INCREMENT untuk tabel `pengembalian`
+-- AUTO_INCREMENT for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  MODIFY `ID_PENGEMBALIAN` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_PENGEMBALIAN` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301007;
 
 --
--- AUTO_INCREMENT untuk tabel `pustakawan`
+-- AUTO_INCREMENT for table `pustakawan`
 --
 ALTER TABLE `pustakawan`
   MODIFY `ID_PUSTAKAWAN` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50506;
 
 --
--- AUTO_INCREMENT untuk tabel `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `ID_ROLE` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `denda`
+-- Constraints for table `denda`
 --
 ALTER TABLE `denda`
   ADD CONSTRAINT `denda_ibfk_1` FOREIGN KEY (`ID_PEMINJAMAN`) REFERENCES `peminjaman` (`ID_PEMINJAMAN`),
@@ -304,7 +326,7 @@ ALTER TABLE `denda`
   ADD CONSTRAINT `denda_ibfk_3` FOREIGN KEY (`ID_BUKU`) REFERENCES `buku` (`ID_BUKU`);
 
 --
--- Ketidakleluasaan untuk tabel `peminjaman`
+-- Constraints for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
   ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`ID_ANGGOTA`) REFERENCES `anggota` (`ID_ANGGOTA`),
@@ -312,14 +334,14 @@ ALTER TABLE `peminjaman`
   ADD CONSTRAINT `peminjaman_ibfk_3` FOREIGN KEY (`ID_BUKU`) REFERENCES `buku` (`ID_BUKU`);
 
 --
--- Ketidakleluasaan untuk tabel `pengembalian`
+-- Constraints for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
   ADD CONSTRAINT `pengembalian_ibfk_1` FOREIGN KEY (`ID_PEMINJAMAN`) REFERENCES `peminjaman` (`ID_PEMINJAMAN`),
-  ADD CONSTRAINT `pengembalian_ibfk_2` FOREIGN KEY (`ID_PUSTAKAWAN`) REFERENCES `pustakawan` (`ID_PUSTAKAWAN`);
+  ADD CONSTRAINT `pengembalian_ibfk_2` FOREIGN KEY (`ID_ANGGOTA`) REFERENCES `anggota` (`ID_ANGGOTA`);
 
 --
--- Ketidakleluasaan untuk tabel `pustakawan`
+-- Constraints for table `pustakawan`
 --
 ALTER TABLE `pustakawan`
   ADD CONSTRAINT `pustakawan_ibfk_1` FOREIGN KEY (`ID_ROLE`) REFERENCES `roles` (`ID_ROLE`);
