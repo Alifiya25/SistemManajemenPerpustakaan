@@ -2,14 +2,17 @@
 include 'connect.php'; // Koneksi database
 
 // Fungsi untuk mengambil data denda
-$sql = "SELECT * FROM denda";
+$sql = "SELECT denda.ID_DENDA, peminjaman.ID_ANGGOTA, denda.ID_PEMINJAMAN, denda.ID_PUSTAKAWAN, 
+        denda.ID_BUKU, denda.TOTAL_DENDA, denda.JUMLAH_BUKU 
+        FROM denda
+        JOIN peminjaman ON denda.ID_PEMINJAMAN = peminjaman.ID_PEMINJAMAN";
 $result = $conn->query($sql);
 
-// Jika ada parameter 'delete', hapus data
+/// Jika ada parameter 'delete', hapus data
 if (isset($_GET['delete'])) {
     $id_to_delete = $_GET['delete'];
-    $stmt = $conn->prepare("DELETE FROM denda WHERE id_denda = ?");
-    $stmt->bind_param("s", $id_to_delete);
+    $stmt = $conn->prepare("DELETE FROM denda WHERE ID_DENDA = ?");
+    $stmt->bind_param("i", $id_to_delete);
     $stmt->execute();
     header("Location: denda.php");
     exit;
@@ -222,7 +225,7 @@ if (isset($_GET['delete'])) {
     <div class="header">
         <div class="title">SMARTLIB</div>
         <div class="nav-buttons">
-            <a href="menu_utama.php"><i class="fas fa-home"></i> Menu Utama</a>
+            <a href="menu_utama.php"><i class="fas fa-sign-out-alt"></i> Menu Utama</a>
         </div>
     </div>
 
@@ -266,29 +269,18 @@ if (isset($_GET['delete'])) {
                     <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['id_denda']); ?></td>
-                        <td><?php echo htmlspecialchars($row['id_peminjaman']); ?></td>
-                        <td><?php echo htmlspecialchars($row['id_anggota']); ?></td>
-                        <td><?php echo htmlspecialchars($row['total_denda']); ?></td>
-                        <td><?php echo htmlspecialchars($row['jumlah_buku']); ?></td>
-                        <td><?php echo htmlspecialchars($row['tanggal_denda']); ?></td>
-                        <td><?php echo htmlspecialchars($row['pustakawan']); ?></td>
-                        <td class="action-icons">
-                            <!-- Tombol Edit -->
-                            <a href="denda.php?action=edit&id=<?php echo $row['id_denda']; ?>" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <!-- Tombol Hapus -->
-                            <a href="denda.php?delete=<?php echo $row['id_denda']; ?>"
-                                onclick="return confirm('Yakin ingin menghapus data ini?');" title="Hapus">
-                                <i class="fas fa-trash-alt" style="color: red;"></i>
-                            </a>
-                        </td>
+                        <td><?php echo htmlspecialchars($row['ID_DENDA']); ?></td>
+                        <td><?php echo htmlspecialchars($row['ID_PEMINJAMAN']); ?></td>
+                        <td><?php echo htmlspecialchars($row['ID_ANGGOTA']); ?></td>
+                        <td><?php echo htmlspecialchars($row['ID_PUSTAKAWAN']); ?></td>
+                        <td><?php echo htmlspecialchars($row['ID_BUKU']); ?></td>
+                        <td><?php echo htmlspecialchars($row['TOTAL_DENDA']); ?></td>
+                        <td><?php echo htmlspecialchars($row['JUMLAH_BUKU']); ?></td>
                     </tr>
                     <?php endwhile; ?>
                     <?php else: ?>
                     <tr>
-                        <td colspan="8" class="text-center">Tidak ada data denda.</td>
+                        <td colspan="8">Tidak ada data denda.</td>
                     </tr>
                     <?php endif; ?>
                 </tbody>

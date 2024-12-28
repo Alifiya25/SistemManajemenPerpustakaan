@@ -2,6 +2,15 @@
 <?php
 include 'connect.php'; // Koneksi database
 
+// Memeriksa apakah pengguna memiliki akses untuk Pustakawan Jaga I atau IV
+if (!isset($_SESSION['ID_ROLE']) || !in_array($_SESSION['ID_ROLE'], [1, 4])) {
+    echo "<script>
+    alert('Akses tidak diizinkan untuk Anda.');
+    window.location.href = 'menu_utama.php';
+    </script>";
+    exit();
+}
+
 // Menangani input pencarian
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
@@ -51,6 +60,15 @@ $hari_ini_query = "SELECT COUNT(*) AS hari_ini FROM pengembalian WHERE TANGGAL_K
 $hari_ini_result = $conn->query($hari_ini_query);
 $total_hari_ini = $hari_ini_result->fetch_assoc()['hari_ini'];
 
+// Jika ada parameter 'delete', hapus data
+if (isset($_GET['delete'])) {
+    $id_to_delete = $_GET['delete'];
+    $stmt = $conn->prepare("DELETE FROM pengembalian WHERE ID_PENGEMBALIAN = ?");
+    $stmt->bind_param("s", $id_to_delete);
+    $stmt->execute();
+    header("Location: pengembalian.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -302,6 +320,7 @@ $total_hari_ini = $hari_ini_result->fetch_assoc()['hari_ini'];
                 </table>
                 </div>
                     <div class="actions">
+                        <!-- Tombol Hapus -->
                         <a href="hapus_pengembalian.php" class="btn btn-danger">Hapus</a>
                         <a href="tambah_pengembalian.php" class="btn btn-success">Tambah</a>
                         <a href="#" onclick="editSelected()" class="btn btn-warning">Edit</a>

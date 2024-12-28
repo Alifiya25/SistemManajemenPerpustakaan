@@ -56,13 +56,6 @@ $result_anggota = $stmt->get_result();
     </div>
 
     <div class="container mt-4">
-        <!-- Pesan sukses setelah update -->
-        <?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
-        <div class="alert alert-success" role="alert">
-            Data anggota berhasil diperbarui!
-        </div>
-        <?php endif; ?>
-
         <!-- Judul -->
         <div class="welcome-container-anggota">
             <h1 class="mb-4">Daftar Anggota</h1>
@@ -139,13 +132,31 @@ $result_anggota = $stmt->get_result();
         </div>
         <div class="actions">
             <div class="actions d-flex justify-content-between mt-4">
-                <a href="hapus_anggota.php" class="btn btn-danger">Hapus</a>
+                <a href="#" onclick="deleteSelected()" class="btn btn-danger">Hapus</a>
                 <a href="tambah_anggota.php" class="btn btn-success">Tambah</a>
                 <a href="#" onclick="editSelected()" class="btn btn-warning">Edit</a>
-                <a href="convert_anggota_docs.php" class="btn btn-info">Convert to Docs</a>
+                <a href="convert_to_docs.php" class="btn btn-info">Convert to Docs</a>
             </div>
             <div class="footer-anggota">
                 &copy; 2024 Sistem Perpustakaan. All rights reserved.
+            </div>
+        </div>
+        <!-- Tambahkan Modal Hapus -->
+        <div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalHapusLabel">Konfirmasi Hapus Anggota</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="pesanHapus">Apakah Anda yakin ingin menghapus anggota ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger" id="btnKonfirmasiHapus">Hapus</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -157,27 +168,66 @@ $result_anggota = $stmt->get_result();
         }
 
         function editSelected() {
-            const selected = document.querySelector('input[name="selected[]"]:checked');
-            if (selected) {
-                window.location.href = `edit_anggota.php?id_anggota=${selected.value}`;
-            } else {
+            // Ambil semua checkbox yang dipilih
+            const selected = document.querySelectorAll('input[name="selected[]"]:checked');
+
+            // Jika tidak ada checkbox yang dipilih
+            if (selected.length === 0) {
                 alert("Pilih anggota yang ingin diedit.");
+                return;
             }
+
+            // Jika lebih dari satu checkbox yang dipilih
+            if (selected.length > 1) {
+                alert("Hanya satu anggota yang dapat diedit dalam satu waktu.");
+                return;
+            }
+
+            // Ambil ID anggota dari checkbox yang dipilih
+            const id_anggota = selected[0].value;
+
+            // Arahkan ke halaman edit
+            window.location.href = 'edit_anggota.php?id_anggota=' + id_anggota;
         }
 
-        // Fungsi untuk membaca parameter dari URL
-        function getQueryParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
 
-        // Mengecek apakah parameter 'error' ada
-        const errorMessage = getQueryParameter('error');
-        if (errorMessage) {
-            alert(errorMessage); // Menampilkan pesan kesalahan
-            // Menghapus parameter 'error' dari URL setelah ditampilkan
-            const currentUrl = window.location.href.split('?')[0];
-            history.replaceState({}, document.title, currentUrl);
+        function deleteSelected() {
+            const selected = document.querySelector('input[name="selected[]"]:checked');
+            if (!selected) {
+                alert("Pilih anggota yang ingin dihapus.");
+                return;
+            }
+
+            const idAnggota = selected.value;
+
+            // Lakukan AJAX untuk cek tunggakan anggota
+            fetch(`cek_tunggakan.php?id_anggota=${idAnggota}`)
+                .then(response => response.json())
+                .then(data => {
+                    const pesanHapus = document.getElementById('pesanHapus');
+                    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+
+                    if (data.tunggakan > 0) {
+                        pesanHapus.textContent =
+                            `Anggota tidak dapat dihapus karena memiliki tunggakan sebesar Rp. ${data.tunggakan.toLocaleString()}.`;
+                        btnKonfirmasiHapus.style.display = 'none';
+                    } else {
+                        pesanHapus.textContent = "Apakah Anda yakin ingin menghapus anggota ini?";
+                        btnKonfirmasiHapus.style.display = 'inline-block';
+
+                        btnKonfirmasiHapus.onclick = function() {
+                            window.location.href = `hapus_anggota.php?id_anggota=${idAnggota}`;
+                        };
+                    }
+
+                    // Tampilkan modal
+                    const modalHapus = new bootstrap.Modal(document.getElementById('modalHapus'));
+                    modalHapus.show();
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan saat memeriksa tunggakan anggota.');
+                    console.error(error);
+                });
         }
         </script>
 </body>

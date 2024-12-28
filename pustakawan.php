@@ -100,6 +100,7 @@ $result_pustakawan = $stmt->get_result();
                         <th>ID Pustakawan</th>
                         <th>Nama</th>
                         <th>Tanggal Lahir</th>
+                        <th>Tanggal Pustakawan</th>
                         <th>Alamat</th>
                         <th>No. Telepon</th>
                         <th>Jabatan</th>
@@ -113,6 +114,7 @@ $result_pustakawan = $stmt->get_result();
                         <td><?= htmlspecialchars($row['ID_PUSTAKAWAN'], ENT_QUOTES) ?></td>
                         <td><?= htmlspecialchars($row['NAMA'], ENT_QUOTES) ?></td>
                         <td><?= htmlspecialchars($row['TANGGAL_LAHIR'], ENT_QUOTES) ?></td>
+                        <td><?= htmlspecialchars($row['TANGGAL_PUSTAKAWAN'], ENT_QUOTES) ?></td>
                         <td><?= htmlspecialchars($row['ALAMAT'], ENT_QUOTES) ?></td>
                         <td><?= htmlspecialchars($row['KONTAK'], ENT_QUOTES) ?></td>
                         <td><?= htmlspecialchars($row['JABATAN'], ENT_QUOTES) ?></td>
@@ -128,10 +130,9 @@ $result_pustakawan = $stmt->get_result();
         </div>
 
         <div class="actions d-flex justify-content-between mt-4">
-            <a href="hapus_pustakawan.php" class="btn btn-danger">Hapus</a>
-            <a href="tambah_pustakawan.php" class="btn btn-success">Tambah</a>
+            <a href="hapus_pustakawan.php" class="btn btn-danger">Kosongkan</a>
             <a href="#" onclick="editSelected()" class="btn btn-warning">Edit</a>
-            <a href="convert_pustakawan_docs.php" class="btn btn-info">Convert to Docs</a>
+            <a href="tambah_pustakawan.php" class="btn btn-success">Tambah</a>
         </div>
 
         <div class="footer-anggota">
