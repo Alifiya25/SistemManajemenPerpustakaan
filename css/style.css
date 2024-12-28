@@ -3,26 +3,24 @@ body {
     font-family: 'Poppins', Arial, sans-serif;
     background-color: #d1ecd1;
     color: #333;
-    height: 100vh;/* Full height of viewport */
-    overflow: hidden;/* Prevent scrolling */
-    padding-top: 100px; /* Sesuaikan dengan tinggi header */
-    
+    height: 100vh;
+    overflow-x: hidden; /* Hindari scrolling horizontal */
+    overflow-y: hidden; /* Hindari scrolling Vertikal */
+    margin: 0;
 }
-
+/* Header */
 header {
     background: #4caf50;
     color: white;
     text-align: center;
-    padding: 5px 0;
-    bottom: 0;
+    padding: 10px 0;
     position: fixed;
-    left: 0;
     top: 0;
-    height: 60px;
+    left: 0;
     width: 100%;
-    z-index: 100;/* Pastikan footer berada di atas konten lain */
-    padding-bottom: 20px; /* Tambahkan ruang bawah */
-    
+    height: 60px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .alert {
@@ -113,7 +111,6 @@ footer {
     margin-right: auto;/* Center horizontally */
 }
 
-
 .login-header {
     margin-bottom: 25px;
 }
@@ -186,31 +183,27 @@ footer {
     align-items: center;
     padding: 40px 20px;
     text-align: center;
-    margin-top: 60px; /* Reduced for closer proximity to header */
-    margin-bottom: 20px; /* Reduced for closer proximity to menu-container */
+    margin-top: 60px;  /* Jarak lebih kecil */
 }
 
 .welcome-message {
-    background: white;
+    background: #fff; /* Warna putih untuk background */
     padding: 20px 40px;
     border-radius: 15px;
-    box-shadow: 0 4px 8px #4caf50;
+    box-shadow: 0 4px 8px #4caf50; /* Bayangan hijau */
     font-size: 24px;
-    color: #4caf50;
+    color: #4caf50; /* Warna teks hijau */
     font-weight: bold;
 }
 
 .menu-container {
     display: flex;
-    justify-content: center; /* This centers the content horizontally */
+    justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
-    padding: 20px; /* Make sure padding is balanced */
-    margin-top: 20px;
+    padding: 20px;
     max-width: 1200px;
-    width: 100%;
-    margin-left: auto; /* Centers the container */
-    margin-right: auto; /* Centers the container */
+    margin: 0 auto; /* Pastikan kontainer tetap di tengah */
 }
 
 .menu-grid {
@@ -219,16 +212,15 @@ footer {
     justify-content: center;
     gap: 30px;
     max-width: 1200px;
-    margin: 0 auto; /* Ensures centering */
-    box-shadow: #4caf50;
+    margin: 0 auto;
 }
 
 .menu-card {
-    background: white;
+    background: #fff; /* Warna putih untuk background */
     border-radius: 12px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 8px #4caf50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan lebih natural */
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     width: 200px;
     max-width: 300px;
@@ -236,25 +228,25 @@ footer {
 
 .menu-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Bayangan saat hover */
 }
 
 .menu-card i {
     font-size: 40px;
-    color: #4caf50;
+    color: #4caf50; /* Ikon hijau */
     margin-bottom: 10px;
 }
 
 .menu-card h4 {
     font-size: 18px;
-    color: #333;
+    color: #333; /* Teks abu gelap */
     margin: 0;
 }
 
 .error-container {
     display: none; /* Tersembunyi secara default */
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #f8d7da; /* Merah muda untuk error */
+    color: #721c24; /* Teks merah */
     border: 1px solid #f5c6cb;
     padding: 10px;
     margin: 20px auto;
@@ -265,7 +257,11 @@ footer {
 
 @media (max-width: 768px) {
     .menu-container {
-        flex-direction: column;  /* Ubah menjadi kolom pada layar kecil */
+        flex-direction: column; /* Kolom untuk layar kecil */
+    }
+
+    .menu-card {
+        width: 100%; /* Lebar penuh pada perangkat kecil */
     }
 }
 
@@ -591,3 +587,30 @@ button:hover {
     background-color: #45a049;
 }
 
+/*Pustakawan*/
+ /* Styling untuk container tipe pustakawan */
+ .role-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+/* Styling untuk input radio */
+.role-container input[type="radio"] {
+    display: none;
+}
+
+/* Styling untuk label yang terkait dengan radio */
+.role-container label {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    transition: background-color 0.3s;
+}
+
+/* Menambahkan warna hijau ketika dipilih */
+.role-container input[type="radio"]:checked + label {
+    background-color: #28a745;
+    color: white;
+}
